@@ -1,0 +1,8 @@
+{
+  "source_setid": "bf59ff89-a9fa-4fe3-b167-a5d0cba9e438",
+  "source_version": "14",
+  "products_parsed": 1,
+  "search_passed": true,
+  "c3pi_distinct_ndcs": 4236,
+  "database_tested": "SQLite; PostgreSQL integration pending"
+}

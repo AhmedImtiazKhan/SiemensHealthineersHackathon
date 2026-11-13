@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: pilltalk
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pilltalk}
+      POSTGRES_DB: pilltalk
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pilltalk"]
+      interval: 5s
+      retries: 20
+
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg://pilltalk:${POSTGRES_PASSWORD:-pilltalk}@db:5432/pilltalk
+      API_KEY: ${API_KEY:-}
+    ports:
+      - "127.0.0.1:${PILLTALK_PORT:-8000}:8000"
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
